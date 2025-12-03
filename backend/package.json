@@ -1,11 +1,11 @@
 {
   "name": "prisma1",
   "version": "1.0.0",
-  "main": "server.ts",
+  "main": "server.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --exec tsx server.ts"
+    "dev": "nodemon --exec tsx src/server.js"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -15,11 +15,13 @@
     "@prisma/client": "^7.0.1",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "pg": "^8.16.3",
     "prisma": "^7.0.1",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
