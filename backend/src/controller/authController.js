@@ -70,4 +70,45 @@ const register = async (req, res) => {
   }
 };
 
-export { register };
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        jobSeekerProfile: true,
+        employerProfile: true,
+      },
+    });
+    if (!user) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, "Invalid email or password"));
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, "Invalid email or password"));
+    }
+    const token = generateTokens(user.id);
+
+    delete user.password;
+
+    res.status(200).json(new ApiResponse(200, "Login successful", { user }));
+  } catch (error) {
+    res.status(500).json(new ApiResponse(500, "Login Failed"));
+  }
+};
+
+const logout = async (req, res) => {
+  // Implement logout logic if needed (e.g., token invalidation)
+  try {
+    res.status(200).json(new ApiResponse(200, "Logout successful"));
+  } catch (error) {
+    res.status(500).json(new ApiResponse(500, "Logout Failed"));
+  }
+};
+
+export { register, login, logout };
