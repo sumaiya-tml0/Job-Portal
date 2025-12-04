@@ -7,10 +7,12 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 const port = process.env.PORT || 4000;
-app.get("/users", async (_, res) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
-});
+
+//routes import
+import userRoutes from "../src/routes/userRoutes.js";
+
+//routes declaration
+app.use("/api/users", userRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
